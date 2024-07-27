@@ -7,8 +7,13 @@ const fs = require("fs");
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json("hello world"));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 const tokenizer = new natural.WordTokenizer();
 
@@ -24,7 +29,7 @@ fs.readFile("intents.json", "utf8", (err, jsonData) => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.render("index");
 });
 
 app.post("/chat", (req, res) => {
@@ -35,12 +40,15 @@ app.post("/chat", (req, res) => {
   let response = "Sorry! I didn't get that";
 
   for (let intent of data.intents) {
-    if (intent.patterns.some((pattern) => token.includes(pattern.toLowerCase()))) {
-      response = intent.responses[Math.floor(Math.random() * intent.responses.length)];
+    if (
+      intent.patterns.some((pattern) => token.includes(pattern.toLowerCase()))
+    ) {
+      response =
+        intent.responses[Math.floor(Math.random() * intent.responses.length)];
       break;
     }
   }
-  
+
   res.json({ response });
 });
 
