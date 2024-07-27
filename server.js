@@ -20,7 +20,7 @@ fs.readFile("intents.json", "utf8", (err, jsonData) => {
     return;
   }
   data = JSON.parse(jsonData);
-  console.log(data.intents);
+  // console.log(data.intents);
 });
 
 app.get("/", (req, res) => {
@@ -35,25 +35,12 @@ app.post("/chat", (req, res) => {
   let response = "Sorry! I didn't get that";
 
   for (let intent of data.intents) {
-    if (
-      intent.patterns.some((pattern) => token.includes(pattern.toLowerCase()))
-    ) {
-      response =
-        intent.responses[Math.floor(Math.random() * intent.responses.length)];
+    if (intent.patterns.some((pattern) => token.includes(pattern.toLowerCase()))) {
+      response = intent.responses[Math.floor(Math.random() * intent.responses.length)];
       break;
     }
   }
-
-  // if (token.includes("hello")) {
-  //   response = "Hello! How can I help you today?";
-  // } else if (token.includes("bye")) {
-  //   response = "Goodbye! Have a nice day!";
-  // } else if (token.includes("name")) {
-  //   response = "I'm your friendly chatbot";
-  // } else if (token.includes("help")) {
-  //   response = "Sure, I am here to help. What do you need assistance with?";
-  // }
-
+  
   res.json({ response });
 });
 
