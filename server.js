@@ -8,6 +8,23 @@ const port = 3000;
 app.use(bodyParser.json("hello world"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const tokenizer = new natural.WordTokenizer();
+
+app.post("/chat", (req, res) => {
+  const userInput = req.body.message;
+  const token = tokenizer.tokenize(userInput.toLowerCase());
+  console.log(token);
+
+  let response = "hello world";
+  if (token.includes("hello")) {
+    response = "Hello! How can I help you today?";
+  } else if (token.includes("bye")) {
+    response = "Goodbye! Have a nice day!";
+  }
+
+  res.json({ response });
+});
+
 app.listen(port, () => {
   console.log(`Chatbot server running at http://localhost:${port}`);
 });

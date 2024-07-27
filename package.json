@@ -4,7 +4,8 @@
   "description": "nodejs chatbot nlp",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "author": "ankush",
   "license": "ISC",
@@ -12,5 +13,8 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "natural": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
