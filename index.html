@@ -1,0 +1,59 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>College ChatBot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #chatbox {
+        width: 300px;
+        margin: 20px auto;
+      }
+      #messages {
+        border: 1px solid #ccc;
+        padding: 10px;
+        height: 200px;
+        overflow-y: scroll;
+      }
+      #input {
+        width: 100%;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chatbox">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Type a message..." />
+    </div>
+    <script>
+      const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const message = input.value;
+          input.value = "";
+
+          const userMessage = document.createElement("div");
+          userMessage.textContent = `You: ${message}`;
+          messages.appendChild(userMessage);
+
+          fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const botMessage = document.createElement("div");
+              botMessage.textContent = `Bot: ${data.response}`;
+              messages.appendChild(botMessage);
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

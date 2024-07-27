@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const natural = require("natural");
+const path = require("path");
 
 const app = express();
 const port = 3000;
@@ -10,12 +11,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const tokenizer = new natural.WordTokenizer();
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
 app.post("/chat", (req, res) => {
   const userInput = req.body.message;
   const token = tokenizer.tokenize(userInput.toLowerCase());
   console.log(token);
 
-  let response = "hello world";
+  let response = "Sorry! I didn't get that";
   if (token.includes("hello")) {
     response = "Hello! How can I help you today?";
   } else if (token.includes("bye")) {
