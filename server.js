@@ -20,6 +20,10 @@ app.post("/chat", (req, res) => {
     response = "Hello! How can I help you today?";
   } else if (token.includes("bye")) {
     response = "Goodbye! Have a nice day!";
+  } else if (token.includes("name")) {
+    response = "I'm your friendly chatbot";
+  } else if (token.includes("help")) {
+    response = "Sure, I am here to help. What do you need assistance with?";
   }
 
   res.json({ response });
